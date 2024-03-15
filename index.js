@@ -9,7 +9,7 @@ const proxy = createProxyMiddleware({
   target: 'http://183.215.60.23:7021', // 后端服务的地址  
   changeOrigin: true, // 改变请求头中的origin  
   pathRewrite: {
-    '^/api': '/appirms/costnew/plugins/gdApp/optimize' // 重写路径，去掉/api前缀  
+    // '^/api': '/appirms/costnew/plugins/gdApp/optimize' // 重写路径，去掉/api前缀  
   },
   headers: {
     'timestamp': 'your-timestamp-value' // 如果后端需要timestamp头部，可以在这里添加  
@@ -32,7 +32,10 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // 应用代理到/api路径  
-app.use('/api', proxy);
+// app.use('/api', proxy);
+// 应用代理到正确的路径  
+// app.use('/appirms/apicenterNew/api', proxy); // 修改这里以匹配你的请求路径  
+app.use('*', proxy);  // 只要是 http://localhost:3000/ 都代理到 http://183.215.60.23:7021 
 
 
 const PORT = 3000; // 代理服务器端口  
